@@ -5,8 +5,18 @@ import './Countries.css'
 const Countries = ({countryPromise}) => {
    
   const [visitedCountries,setVisitedCountries] = useState([])
+  const [visitedFlags,setVisitedFlags]=useState([]);
 
   const  contries = use(countryPromise)
+
+
+  const handleVisitedFlags=(flag)=>{
+    // console.log('flag asche',flag)
+    const  newVisitedFlags= [...visitedFlags,flag];
+    setVisitedFlags(newVisitedFlags)
+  }
+
+
 
   const handleVisitedCountries=(country)=>{
     //  console.log('visited country clicked',country.name.common);
@@ -20,9 +30,14 @@ const Countries = ({countryPromise}) => {
     <div >
       <h1>travelling countries:{contries.length}</h1>
       <h3>Traveled so far :{visitedCountries.length}</h3>
+      <div className='visited-flags-container'>
+        {
+          visitedFlags.map((flag,index) => <img  key={index} src={flag}></img>)
+        }
+      </div>
       <ol>
         {
-          visitedCountries.map(country=> <li>{country.name.common}</li>)
+          visitedCountries.map(country=> <li  key={country.cca3}> {country.name.common}</li>)
         }
       </ol>
       
@@ -31,6 +46,7 @@ const Countries = ({countryPromise}) => {
         contries.map(country=><Country 
           key={country.cca3} 
           handleVisitedCountries={handleVisitedCountries}
+          handleVisitedFlags={handleVisitedFlags}
            country={country}></Country>)
       }
       </div>
